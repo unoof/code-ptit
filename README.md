@@ -1,5 +1,5 @@
-# cpp-ptit
-code ptit c++
+# code-ptit
+code ptit 
 
 
-this is a repo for cpp code ptit 
+this is a repo for code ptit problems 
