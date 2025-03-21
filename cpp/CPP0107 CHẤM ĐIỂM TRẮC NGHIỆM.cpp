@@ -1,41 +1,45 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool check(deque<int> dq)
+void submit(char *set_101, char *set_102)
 {
-    for (int i = 0; i < dq.size()/2; i++)
+    int b;  
+    cin >> b;
+
+    char ans[15];
+
+    for (int i = 0; i < 15; i++)
     {
-        if (dq[i] != dq[dq.size() - i])
+        cin >> ans[i];
+    }
+    double count {0};
+
+    if (b == 101)
+    {
+        for (int i = 0; i < 15; i++)
         {
-            return false;
+            if (ans[i] == set_101[i])
+            {
+                count++;
+            }
+            
         }
         
     }
-    
-    return true;
-}
-
-
-void submit()
-{
-    int num;
-    cin >> num;
-
-    deque<int> dq;
-    int i {0};
-
-    while (num > 0)
+    else
     {
-        dq[i] = num%10;
-        num /= 10;
-        i++;
+        for (int i = 0; i < 15; i++)
+        {
+            if (ans[i] == set_102[i])
+            {
+                count++;
+            }
+            
+        }
     }
+    cout << setprecision(2) << fixed << count*10/15 << endl;
     
-
-    check(dq) ? (cout << "YES") : (cout << "NO");
     
-
-    cout << endl;
 }
 
 int main()
@@ -47,9 +51,13 @@ int main()
     int so_bo_test;
     cin >> so_bo_test;
 
+    char set_101[] = {'A', 'B', 'B', 'A', 'D', 'C', 'C', 'A', 'B', 'D', 'C', 'C', 'A', 'B', 'D'};
+    char set_102[] = {'A', 'C', 'C', 'A', 'B', 'C', 'D', 'D', 'B', 'B', 'C', 'D', 'D', 'B', 'B'};
+
+
     while (so_bo_test--)
     {
-        submit();
+        submit(set_101, set_102);
     }
 
     return 0;
