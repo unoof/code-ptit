@@ -1,41 +1,37 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool check(deque<int> dq)
+bool check(vector<int> num, int a)
 {
-    for (int i = 0; i < dq.size()/2; i++)
+    for (int i = 0; i < a-1; i++)
     {
-        if (dq[i] != dq[dq.size() - i])
+        if (abs(num[i] - num[i+1]) != 1)
         {
             return false;
         }
         
     }
-    
     return true;
 }
 
-
 void submit()
 {
-    int num;
-    cin >> num;
+    long long a;
+    cin >> a;
 
-    deque<int> dq;
+    vector<int> num(18);
     int i {0};
-
-    while (num > 0)
+    
+    while (a > 0)
     {
-        dq[i] = num%10;
-        num /= 10;
+        num[i] = a%10;
+        a /= 10;
         i++;
     }
     
-
-    check(dq) ? (cout << "YES") : (cout << "NO");
-    
-
+    check(num, i) ? (cout << "YES") : (cout << "NO");
     cout << endl;
+    
 }
 
 int main()
