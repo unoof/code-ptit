@@ -1,41 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool check(deque<int> dq)
-{
-    for (int i = 0; i < dq.size()/2; i++)
-    {
-        if (dq[i] != dq[dq.size() - i])
-        {
-            return false;
-        }
-        
-    }
-    
-    return true;
-}
-
-
 void submit()
 {
-    int num;
+    string num;
     cin >> num;
 
-    deque<int> dq;
-    int i {0};
-
-    while (num > 0)
-    {
-        dq[i] = num%10;
-        num /= 10;
-        i++;
+    size_t pos = num.find("084");
+    
+    if (pos != string::npos) {
+        num.erase(pos, 3);
     }
-    
 
-    check(dq) ? (cout << "YES") : (cout << "NO");
-    
 
-    cout << endl;
+    cout << num << endl;
+    
 }
 
 int main()
