@@ -1,56 +1,55 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool check(deque<int> dq)
+bool check(int num)
 {
-    for (int i = 0; i < dq.size()/2; i++)
+    int odd {0}, even {0};
+
+    while (num > 0)
     {
-        if (dq[i] != dq[dq.size() - i])
+        if ((num%10)%2 != 0)
         {
-            return false;
+            odd++;
         }
-        
+        else
+        {
+            even++;
+        }
+        num/=10;
     }
-    
-    return true;
+
+    return odd == even;
 }
 
 
 void submit()
 {
-    int num;
-    cin >> num;
-
-    deque<int> dq;
-    int i {0};
-
-    while (num > 0)
+    int a, count {1};
+    cin >> a;
+    
+    for (int i = pow(10, a - 1); i < pow(10, a); i++)
     {
-        dq[i] = num%10;
-        num /= 10;
-        i++;
+        if (check(i) && count < 10)
+        {
+            cout << i << " ";
+            count++;
+        }
+        else if (check(i) && count == 10)
+        {
+            cout << i << endl;
+            count = 1;
+        }
     }
     
-
-    check(dq) ? (cout << "YES") : (cout << "NO");
-    
-
     cout << endl;
 }
 
 int main()
 {
-    ios::sync_with_stdio(false);                                    // Speed up input/output
+    ios::sync_with_stdio(false);  // Speed up input/output
     cin.tie(nullptr);
-    cout.tie(nullptr);
 
-    int so_bo_test;
-    cin >> so_bo_test;
-
-    while (so_bo_test--)
-    {
-        submit();
-    }
+    submit();
 
     return 0;
 }
