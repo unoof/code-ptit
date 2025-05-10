@@ -19,7 +19,7 @@ void submit()
         i--;
     }
 
-    if (i > 0)
+    if (i >= 0)
     {
         int k = n-1;
         while (A[i] < A[k])
