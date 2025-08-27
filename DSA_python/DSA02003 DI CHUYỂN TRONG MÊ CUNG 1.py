@@ -6,20 +6,18 @@ def go_down(A, i, j, s):
         return
 
     if i+1 == n or A[i+1][j] == 0:
-        return;
+        return
 
     s += "D"
-    save = s
     i += 1
     go_down(A, i, j, s)
     go_right(A, i, j, s)
 
 def go_right(A, i, j, s):
     if j+1 == n or A[i][j+1] == 0:
-        return;
+        return
 
     s += "R"
-    save = s
     j += 1
     go_down(A, i, j, s)
     go_right(A, i, j, s)
@@ -45,4 +43,5 @@ def submit():
 
 test = int(input())
 for i in range(test):
+
     submit()
