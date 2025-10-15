@@ -1,0 +1,52 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+void submit()
+{
+    int n;
+    cin >> n;
+
+    vector<int> A(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> A[i];
+    }
+    
+    sort(A.begin(), A.end());
+
+    int left = 0, right = n-1;
+    while (left <= right)
+    {
+        if (left == right)  cout << A[left];
+        else cout << A[right] << " " << A[left] << " ";
+        
+        left++; right--;
+    }
+    
+    
+    
+    
+    cout << endl;
+    return;
+}
+
+
+
+int main()
+{
+    ios::sync_with_stdio(false);                                    // Speed up input/output
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+
+    int so_bo_test;
+    cin >> so_bo_test;
+    cin.ignore();
+
+    while (so_bo_test--)
+    {
+        submit();
+    }
+
+    return 0;
+}
