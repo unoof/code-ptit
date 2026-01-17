@@ -14,7 +14,7 @@ def submit():
     if n%2 != 0:
         n+=1
     
-    for i in range(22, n, 2):
+    for i in range(22, n, 22):
         if check_num(str(i)) is True:
             print(i, end=" ")
     print()
@@ -24,4 +24,5 @@ def submit():
 
 test = int(input())
 for _ in range(test):
+
     submit()
