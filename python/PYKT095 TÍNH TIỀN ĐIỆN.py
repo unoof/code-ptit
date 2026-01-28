@@ -1,34 +1,29 @@
-class electric:
-    def __init__(self, id, name, group, used):
-        temp = {"A": 100,
-                "B": 500,
-                "C": 200}
+class ICPC:
+    def __init__(self, id, name, team, school):
         self.id = id
         self.name = name
-        if used > temp[group]:
-            self.overload = (used - temp[group])*1000
-            self.VAT = self.overload//20
-            self.money = temp[group]*450
-        else:
-            self.money = used*450
-            self.overload = 0
-            self.VAT = 0
-        self.total = self.money + self.overload + self.VAT
+        self.team = team
+        self.school = school
 
 
 def submit():
     n = int(input())
+    B = dict()
+
+    for i in range(n):
+        team, school = input(), input()
+        B[f"Team{i+1:02d}"] = [team, school]
+
+    n = int(input())
     A = []
 
     for i in range(n):
-        temp = input().strip().split()
-        name = " ".join(i.title() for i in temp)
-        temp = input().split()
-        A.append(electric(i+1, name, temp[0], int(temp[2]) - int(temp[1])))
+        name, team = input(), input()
+        A.append(ICPC(i+1, name, B[team][0], B[team][1]))
 
-    A.sort(key=lambda x:(-x.total))
+    A.sort(key=lambda x:(x.name))
     for i in A:
-        print(f"KH{i.id:02d} {i.name} {i.money} {i.overload} {i.VAT} {i.total}")
+        print(f"C{i.id:03d} {i.name} {i.team} {i.school}")
 
 
 
