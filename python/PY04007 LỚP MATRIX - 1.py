@@ -9,17 +9,20 @@ class matrix:
             self.A[i] = list(map(int, input().split()))
     
     def rotate(self):
-        C = matrix(self.n, self.m)
-        for i in range(self.n):
-            for j in range(self.m):
+        C = matrix(self.m, self.n)
+        for i in range(self.m):
+            for j in range(self.n):
                 C.A[i][j] = self.A[j][i]
         return C
 
-def multiply(A, B, n):
+def multiply(A, B):
+    n, m = A.n, A.m
+    p = B.m
+
     C = [[0]*n for _ in range(n)]
     for i in range(n):
-        for j in range(n):
-            for k in range(n):
+        for j in range(p):
+            for k in range(m):
                 C[i][j] += A.A[i][k] * B.A[k][j]
     return C
 
@@ -29,7 +32,7 @@ def submit():
     A.insert()
     B = A.rotate()
     
-    C = multiply(A, B, n)
+    C = multiply(A, B)
     for i in C:
         print(" ".join(map(str, i)))
 
