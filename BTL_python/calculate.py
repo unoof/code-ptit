@@ -1,5 +1,5 @@
 import pandas as pd
-from process_data import load_data
+from process_data import load_data, save_data
 
 all_team = ['Arsenal', 'Aston Villa', 'Bournemouth', 'Brentford', 'Brighton', 'Burnley', 'Chelsea', 'Crystal Palace', 'Everton',
             'Fulham', 'Leeds United', 'Liverpool', 'Manchester City', 'Manchester Utd', 'Newcastle United', 'Nottingham Forest',
@@ -14,7 +14,7 @@ def main():
     data = data_all.drop(columns=remove_col)
     
     #make separate file to predict the best team
-    data.to_csv('raw_team.csv', index=False)
+    save_data('data', 'raw_team.csv', data, index=False)
 
     data = data.groupby('team')
 
@@ -32,7 +32,9 @@ def main():
 
     #write to the team.csv file
     total = pd.concat([all_team_means, all_team_medians, all_team_std], axis=1)
-    total.fillna('N/a').to_csv('team.csv')
+
+    total = total.fillna('N/a')
+    save_data('data', 'team.csv', total)
 
 if __name__ == '__main__':
     main()

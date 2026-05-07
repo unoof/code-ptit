@@ -1,5 +1,5 @@
 import pandas as pd
-from process_data import load_data
+from process_data import load_data, save_data
 
 def main():
     #take data from team.csv
@@ -17,7 +17,8 @@ def main():
         'team':top
     })
     
-    result.fillna('N/a').to_csv('max.csv', index=False, header=False)
+    result = result.fillna('N/a')
+    save_data('data', 'max.csv', result, index=False, header=False)
 
 
 

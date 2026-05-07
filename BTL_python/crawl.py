@@ -3,12 +3,13 @@ import random
 import time
 from bs4 import BeautifulSoup as bs
 from seleniumbase import SB
+from process_data import save_data
 
-def random_delay(min_seconds=5, max_seconds=15):
+def random_delay(min_seconds=3, max_seconds=7):
     #make some delay to prevent rate-limit
     time.sleep(random.uniform(min_seconds, max_seconds))
 
-def get(player, stat, extra=False):
+def get(player, stat, extra=False, age=False):
     #get 1 data of player
     tmp = player.find('td', attrs={'data-stat':stat})
 
@@ -18,7 +19,9 @@ def get(player, stat, extra=False):
         if extra:
             #if it is a country only take the second because the web base
             tmp = tmp.split()[1]
-
+        if age:
+            #take only player age
+            tmp = tmp.split('-')[0]
         tmp = tmp.replace(',', '').strip()
 
         try:
@@ -46,11 +49,11 @@ def main():
 
     #take all the url auto to access them 
     all_url = []
-    with SB(uc=True) as sb:
+    with SB(uc=True, headless=False) as sb:
         url = "https://fbref.com/en/comps/9/Premier-League-Stats"
         sb.uc_open_with_reconnect(url)
         sb.uc_gui_click_captcha()
-        random_delay(3,7)
+        random_delay()
 
         #get the html of that web
         html = sb.get_page_source()
@@ -74,7 +77,6 @@ def main():
             sb.uc_open_with_reconnect(f'https://fbref.com{url}')
             sb.uc_gui_click_captcha()
 
-            random_delay(3,7)
             html = sb.get_page_source()
             soup = bs(html, "html.parser")
 
@@ -92,7 +94,7 @@ def main():
                     time = player.find('td', attrs={'data-stat':'minutes_90s'}).text.split('.')
                     if int(time[0]) >= 1:
                         #try to take data the html, all the columns found in all_cols
-                        rows.append({i:get(player, i, True if i == 'nationality' else False) for i in all_cols})
+                        rows.append({i:get(player, i, True if i == 'nationality' else False, True if i == 'age' else False) for i in all_cols})
 
                 except:
                     continue
@@ -102,8 +104,9 @@ def main():
     if rows:
         data_all = pd.DataFrame(rows, columns=all_cols)
         data_all = data_all.groupby('player').first().reset_index()
-        data_all.fillna("N/a").to_csv('data.csv')
-        print('DONE')
+        data_all = data_all.fillna("N/a")
+        
+        print('DONE') if save_data('data', 'data.csv', data_all) else print('wrong data')
     else:
         print('No data collected')
 

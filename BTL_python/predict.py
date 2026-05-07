@@ -1,4 +1,4 @@
-from process_data import load_data
+from process_data import load_data, save_data
 
 def main():
     #load the raw team file
@@ -25,7 +25,7 @@ def main():
     #rename the value for easy reading then write to a csv file
     team_ranking = team_ranking.rename("score")
     team_ranking = team_ranking.sort_values(ascending=False)
-    team_ranking.to_csv('rank.csv')
+    save_data('data', 'rank.csv', team_ranking)
 
 
 

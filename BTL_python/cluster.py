@@ -2,10 +2,11 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt
+from pathlib import Path
 from process_data import process, pca
 
 
-def elbow(scaled):
+def elbow(scaled, file):
     #find the best clusters between 1-10 clusters
     inertias = []
     ks = range(1, 11)
@@ -39,10 +40,11 @@ def elbow(scaled):
     plt.xlabel('Number of Clusters (k)')
     plt.ylabel('Inertia')
     plt.title('Elbow Method for Optimal k')
+    plt.savefig(f'./graphs and clusters/elbow_{file}')
     plt.show()
     return point
 
-def silhouette(scaled):
+def silhouette(scaled, file):
     #save all the scores and the best scores with the best clusters
     scores = []
     best_score = -1
@@ -73,8 +75,8 @@ def silhouette(scaled):
     plt.xlabel('Number of Clusters (k)')
     plt.ylabel('score')
     plt.title('Silhouette method for Optimal k')
+    plt.savefig(f'./graphs and clusters/silhouette_{file}')
     plt.show()
-
     #return the best cluster because this algo auto detect the best clusters
     return best_k
 
@@ -95,18 +97,18 @@ def processing(data, file):
     K = 0
     temp = input('elbow or silhouette: ')
     if temp.lower().strip() == 'elbow' or temp.lower().strip() == '1':
-        K = elbow(pca_data)
+        K = elbow(pca_data, file)
     elif temp.lower().strip() == 'silhouette' or temp.lower().strip() == '2':
-        K = silhouette(pca_data)
+        K = silhouette(pca_data, file)
     else:
         while True:
             temp = input('try again: ')
 
             if temp.lower().strip() == 'elbow' or temp.lower().strip() == '1':
-                K = elbow(pca_data)
+                K = elbow(pca_data, file)
                 break
             elif temp.lower().strip() == 'silhouette' or temp.lower().strip() == '2':
-                K = silhouette(pca_data)
+                K = silhouette(pca_data, file)
                 break
             else:
                 continue
@@ -124,12 +126,14 @@ def processing(data, file):
 
     #sort the data base on the cluster and then the player name
     data = data.sort_values(by=['cluster', 'player'], ascending=[True, True])
-    data.to_csv(f'{file}_clusters.csv', index=False)
+    data.to_csv(f'./data/{file}_clusters.csv', index=False)
 
 def main():
     #take the data after process
     gk, outfield = process()
 
+    file_path = Path(f'./graphs and clusters')
+    file_path.mkdir(exist_ok=True)
     #find the number of clusters
     processing(gk, 'gk')
     processing(outfield, 'outfield')

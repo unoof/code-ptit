@@ -1,16 +1,29 @@
 import pandas as pd
-import numpy as np
+from pathlib import Path
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
 #just a load data for other file to use 
 def load_data(file):
     try:
-        df = pd.read_csv(file, na_values=['N/a']).fillna(0)
+        df = pd.read_csv(f'./data/{file}', na_values=['N/a']).fillna(0)
         return df
     except FileNotFoundError:
         print('no file found')
         return None
+
+
+def save_data(folder, file, data, index = True, header = True):
+    try:
+        file_path = Path(f'./{folder}/{file}')
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+
+        data.to_csv(file_path, index=index, header = header)
+    except:
+        print('smth wrong xD')
+        return False
+    return True
+
 
 #separate gk and other roles
 def process():
@@ -94,6 +107,7 @@ class pca:
         plt.ylabel('Principal Component 2')
         plt.title(title)
         plt.grid(True, linestyle='--', alpha=0.6)
+        plt.savefig(f'./graphs and clusters/{title} 2d')
         plt.show()
 
 
@@ -117,4 +131,5 @@ class pca:
         ax.set_ylabel('Principal Component 2')
         ax.set_zlabel('Principal Component 3')
         ax.set_title(title)
+        plt.savefig(f'./graphs and clusters/{title} 3d')
         plt.show()
