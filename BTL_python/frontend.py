@@ -34,7 +34,7 @@ def normalize(text):
     ).lower()
 
 def wait_for_server(url, timeout=30, interval=0.5):
-    """keep checking until server responds or timeout"""
+    #keep checking until server responds or timeout
     start = time.time()
     while time.time() - start < timeout:
         try:
@@ -74,6 +74,9 @@ def format_stat_name(stat):
 # ===== GET DATA FROM API =====
 def get_player_data(name):
     try:
+        if not name:
+            return {}
+
         res = requests.post(API_URL + "/search", data={"user_input": name})
 
         if res.status_code != 200:
@@ -215,6 +218,7 @@ cb1, cb2 = {}, {}
 def clear_frame(frame):
     for w in frame.winfo_children():
         w.destroy()
+    frame._parent_canvas.yview_moveto(0)
 
 def render(frame, data):
     vars = {}
@@ -240,10 +244,17 @@ def render(frame, data):
 # ===== SEARCH =====
 def search1():
     global player1_data, cb1
-    data = get_player_data(entry1.get())
 
+    if not entry1.get().strip():           # check empty first
+        clear_frame(frame1)                # reset immediately
+        player1_data = None
+        return
+
+    data = get_player_data(entry1.get())    
     if not data:
         messagebox.showerror("Error", "Không tìm thấy")
+        clear_frame(frame1)
+        player1_data = None
         return
 
     player1_data = data
@@ -252,10 +263,17 @@ def search1():
 
 def search2():
     global player2_data, cb2
-    data = get_player_data(entry2.get())
 
+    if not entry2.get().strip():           # check empty first
+        clear_frame(frame2)                # reset immediately
+        player2_data = None
+        return
+
+    data = get_player_data(entry2.get())
     if not data:
         messagebox.showerror("Error", "Không tìm thấy")
+        clear_frame(frame2)
+        player2_data = None
         return
 
     player2_data = data
