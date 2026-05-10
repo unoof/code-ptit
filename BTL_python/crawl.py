@@ -9,7 +9,7 @@ def random_delay(min_seconds=3, max_seconds=7):
     #make some delay to prevent rate-limit
     time.sleep(random.uniform(min_seconds, max_seconds))
 
-def get(player, stat, extra=False, age=False):
+def get(player, stat, extra=False, age=False, position=False):
     #get 1 data of player
     tmp = player.find('td', attrs={'data-stat':stat})
 
@@ -22,6 +22,8 @@ def get(player, stat, extra=False, age=False):
         if age:
             #take only player age
             tmp = tmp.split('-')[0]
+        if position:
+            tmp = tmp.replace(',','_').strip()
         tmp = tmp.replace(',', '').strip()
 
         try:
@@ -94,7 +96,7 @@ def main():
                     time = player.find('td', attrs={'data-stat':'minutes_90s'}).text.split('.')
                     if int(time[0]) >= 1:
                         #try to take data the html, all the columns found in all_cols
-                        rows.append({i:get(player, i, True if i == 'nationality' else False, True if i == 'age' else False) for i in all_cols})
+                        rows.append({i:get(player, i, True if i == 'nationality' else False, True if i == 'age' else False, True if i == 'position' else False) for i in all_cols})
 
                 except:
                     continue

@@ -3,7 +3,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt
 from pathlib import Path
-from process_data import process, pca
+from process_data import process, save_data, pca
 
 
 def elbow(scaled, file):
@@ -84,6 +84,7 @@ def silhouette(scaled, file):
 def processing(data, file):
     #take the name and use only the numeric data
     player_names = data['player']
+    raw = data['position']
     data = data.select_dtypes(include='number')
 
     #scale the data to standardize the values
@@ -117,16 +118,44 @@ def processing(data, file):
     kmeans = KMeans(n_clusters=K, random_state=42, n_init=10)
     data['cluster'] = kmeans.fit_predict(pca_data)
     data['player'] = player_names.values
+    data['position'] = raw
+
+    if file == 'gk':
+        if component == 2:
+            labels = [
+                'sup',
+                'main'
+            ]
+        else:
+            labels = [
+                'main',
+                'sup'
+            ]
+
+
+    elif file == 'outfield':
+        if component == 2:
+            labels = [
+                'sup',
+                'lower',
+                'higher'
+            ]
+        else:
+            labels = [
+                'lower',
+                'higher',
+                'sup'
+            ]
 
     #plot the data to visualize it
     if component == 2:
-        pca.plot_2d(pca_data, data['cluster'], title=f'{file} player clusters')
+        pca.plot_2d(pca_data, data['cluster'].values, title=f'{file} player clusters', labels=labels)
     else:
-        pca.plot_3d(pca_data, data['cluster'], title=f'{file} player clusters')
+        pca.plot_3d(pca_data, data['cluster'].values, title=f'{file} player clusters', labels=labels)
 
     #sort the data base on the cluster and then the player name
     data = data.sort_values(by=['cluster', 'player'], ascending=[True, True])
-    data.to_csv(f'./data/{file}_clusters.csv', index=False)
+    save_data('data', f'{file}_clusters.csv', data, index=False)
 
 def main():
     #take the data after process

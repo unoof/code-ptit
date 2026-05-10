@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
 #just a load data for other file to use 
-def load_data(file):
+def load_data(file, folder='data'):
     try:
-        df = pd.read_csv(f'./data/{file}', na_values=['N/a']).fillna(0)
+        df = pd.read_csv(f'./{folder}/{file}', na_values=['N/a']).fillna(0)
         return df
     except FileNotFoundError:
         print('no file found')
@@ -35,7 +35,7 @@ def process():
 
     #use only some columns
     gk_cols = [
-        'player',
+        'player', 'position',
         'minutes_90s',
         'gk_save_pct',
         'gk_goals_against_per90',
@@ -91,17 +91,22 @@ class pca:
         return pca_data
 
 
-    def plot_2d(pca_data, cluster_labels, title="Player Clusters"):
+    def plot_2d(pca_data, cluster_labels, title="Player Clusters", labels=None):
         plt.figure(figsize=(10, 7))
         
-        #plot the first two columns of the PCA data
-        #c=cluster_labels assigns a different color to each group
-        scatter = plt.scatter(pca_data[:, 0], pca_data[:, 1], 
-                            c=cluster_labels+1, cmap='viridis', s=50, alpha=0.7)
+        unique_clusters = sorted(set(cluster_labels))
         
-        # Add a color legend so we know which color is which cluster
-        legend = plt.legend(*scatter.legend_elements(), title="Clusters")
-        plt.gca().add_artist(legend)
+        # default names if no labels provided
+        if labels is None:
+            labels = {c: f'Cluster {c+1}' for c in unique_clusters}
+
+        scatter = plt.scatter(pca_data[:, 0], pca_data[:, 1],
+                            c=cluster_labels+1, cmap='viridis', s=50, alpha=0.7)
+
+        # manual legend with custom names
+        handles, _ = scatter.legend_elements()
+        legend_labels = [labels[c] for c in unique_clusters]
+        plt.legend(handles, legend_labels, title='Clusters')
         
         plt.xlabel('Principal Component 1')
         plt.ylabel('Principal Component 2')
@@ -111,10 +116,15 @@ class pca:
         plt.show()
 
 
-    def plot_3d(pca_data, cluster_labels, title='Player Clusters'):
+    def plot_3d(pca_data, cluster_labels, title='Player Clusters', labels=None):
         fig = plt.figure(figsize=(10, 7))
         #add 3d to the plot
         ax = fig.add_subplot(111, projection='3d')
+
+        unique_clusters = sorted(set(cluster_labels))
+        # default names if no labels provided
+        if labels is None:
+            labels = {c: f'Cluster {c+1}' for c in unique_clusters}
 
         #plot the first two columns of the PCA data
         #c=cluster_labels assigns a different color to each group
@@ -123,9 +133,9 @@ class pca:
             c=cluster_labels+1, cmap='viridis', s=50, alpha=0.7
         )
         
-        # Add a color legend so we know which color is which cluster
-        legend = plt.legend(*scatter.legend_elements(), title="Clusters")
-        plt.gca().add_artist(legend)
+        handles, _ = scatter.legend_elements()
+        legend_labels = [labels[c] for c in unique_clusters]
+        plt.legend(handles, legend_labels, title='Clusters')
 
         ax.set_xlabel('Principal Component 1')
         ax.set_ylabel('Principal Component 2')
