@@ -36,26 +36,21 @@ def process():
     #use only some columns
     gk_cols = [
         'player', 'position',
-        'minutes_90s',
-        'gk_save_pct',
+        'minutes_90s','games_starts',
         'gk_goals_against_per90',
-        'gk_clean_sheets_pct',
-        'gk_wins',
-        'gk_ties',
-        'gk_losses',
         'gk_shots_on_target_against',
-        'plus_minus_per90',
-        'points_per_game',
+        'gk_saves','gk_save_pct',
+        'gk_wins','gk_ties','gk_losses',
+        'gk_clean_sheets','gk_clean_sheets_pct',
         'gk_pens_att',
+        'gk_pens_saved',
         'gk_pens_save_pct'
     ]
 
     outfield_cols = [
         'player', 'position',
         'minutes_90s',
-        'goals_per90',
-        'assists_per90',
-        'shots_per90',
+        'goals_per90','assists_per90','shots_per90',
         'shots_on_target_per90',
         'goals_per_shot',
         'crosses',
@@ -64,8 +59,7 @@ def process():
         'interceptions',
         'tackles_won',
         'fouls',
-        'cards_yellow',
-        'cards_red',
+        'cards_yellow','cards_red',
         'plus_minus_per90',
         'points_per_game'
     ]
@@ -126,7 +120,6 @@ class pca:
         if labels is None:
             labels = {c: f'Cluster {c+1}' for c in unique_clusters}
 
-        #plot the first two columns of the PCA data
         #c=cluster_labels assigns a different color to each group
         scatter = ax.scatter(
             pca_data[:, 0], pca_data[:, 1], pca_data[:, 2],

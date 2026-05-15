@@ -121,30 +121,22 @@ def processing(data, file):
     data['position'] = raw
 
     if file == 'gk':
-        if component == 2:
-            labels = [
-                'sup',
-                'main'
-            ]
-        else:
-            labels = [
-                'main',
-                'sup'
-            ]
-
-
+        labels = [
+            'chính',
+            'dự bị'
+        ]
     elif file == 'outfield':
         if component == 2:
             labels = [
-                'sup',
-                'lower',
-                'higher'
+                'tấn công',
+                'phòng ngự',
+                'dự bị'
             ]
         else:
             labels = [
-                'lower',
-                'higher',
-                'sup'
+                'dự bị',
+                'tấn công',
+                'phòng ngự'
             ]
 
     #plot the data to visualize it
@@ -164,7 +156,7 @@ def main():
     file_path = Path(f'./graphs and clusters')
     file_path.mkdir(exist_ok=True)
     #find the number of clusters
-    processing(gk, 'gk')
+    # processing(gk, 'gk')
     processing(outfield, 'outfield')
 
 

@@ -96,7 +96,10 @@ def main():
                     time = player.find('td', attrs={'data-stat':'minutes_90s'}).text.split('.')
                     if int(time[0]) >= 1:
                         #try to take data the html, all the columns found in all_cols
-                        rows.append({i:get(player, i, True if i == 'nationality' else False, True if i == 'age' else False, True if i == 'position' else False) for i in all_cols})
+                        rows.append({i:get(player, i,
+                                           True if i == 'nationality' else False,
+                                           True if i == 'age' else False,
+                                           True if i == 'position' else False) for i in all_cols})
 
                 except:
                     continue

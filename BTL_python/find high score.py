@@ -11,7 +11,7 @@ def main():
     #take team with max value in each columns
     top = data_all.loc[max_idx, 'team'].values
 
-    #return a Series of the columns + the team with max value in to a csv file
+    #return a Dataframe of the columns + the team with max value in to a csv file
     result = pd.DataFrame({
         'stat':max_idx.index,
         'team':top

@@ -63,7 +63,7 @@ def get_players():
 
 # ===== API: SEARCH PLAYER =====
 @app.route('/search', methods=['POST'])
-def get_playerss():
+def search_player():
     df = load_data()
     name = request.form.get('user_input')
 
