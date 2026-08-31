@@ -66,16 +66,5 @@ public class J04017_TÍCH_MA_TRẬN_VÀ_CHUYỂN_VỊ_CỦA_NÓ {
             System.out.println(a.mul(b));
         }
     }
-    public static void main6342611(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int t = sc.nextInt();
-        while(t-->0){
-            int n = sc.nextInt(), m = sc.nextInt();
-            Matrix a = new Matrix(n,m);
-            a.nextMatrix(sc);
-            Matrix b = a.trans();
-            System.out.println(a.mul(b));
-        }
-    }
 }
 
