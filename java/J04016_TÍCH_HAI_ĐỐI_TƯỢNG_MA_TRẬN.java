@@ -53,13 +53,4 @@ public class J04016_TÍCH_HAI_ĐỐI_TƯỢNG_MA_TRẬN {
         b.nextMatrix(sc);
         System.out.println(a.mul(b));
     }
-    public static void main8572433(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(), m = sc.nextInt(), p = sc.nextInt();
-        Matrix a = new Matrix(n,m);
-        a.nextMatrix(sc);
-        Matrix b = new Matrix(m,p);
-        b.nextMatrix(sc);
-        System.out.println(a.mul(b));
-    }
 }
